@@ -1,14 +1,18 @@
-// import {expect} from 'chai';
-// import {Customer} from '..src/Customer';
-//
-// describe('Customer', function() {
-//   beforeEach(function() {
-//     let users = [{id: 12, name: 'Jimberto'}, {id: 43, 'El Sol'}];
-//     let user1 = new Customer(users[0]);
-//     let user2 = new Customer(users[1]);
-//   });
-//
-//   it('should have an id', function() {
-//     expect(user2.id)to.equal(43)
-//   });
-// });
+import {expect} from 'chai';
+import {Customer} from '../src/Customer';
+import {CustomerRepo} from '../src/CustomerRepo';
+import {users} from '../data/fakeData'
+
+describe('Customer', function() {
+  let customerRepo
+
+  beforeEach(function() {
+    // users = [{id: 17, name: 'La Luna'}, {id: 43, name: 'El Sol'}];
+    customerRepo = new CustomerRepo(users)
+  });
+
+  it('should accept an array of customer data and create customer classes', function() {
+    expect(customerRepo.customers[1]).to.be.instanceOf(Customer)
+  });
+
+});
