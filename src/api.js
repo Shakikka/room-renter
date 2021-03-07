@@ -6,7 +6,7 @@ const checkForError = (response) => {
   }
 }
 
-export const allCustomers = fetch('http://localhost:3001/api/v1/customers');
+export const allCustomers = fetch('http://localhost:3001/api/v1/customers')
   .then(checkForError)
   .catch(err => alert(err))
 
@@ -35,3 +35,4 @@ export const addNewBooking = (bookingInfo) => {
   })
     .then(checkForError)
     .catch(err => check);
+}
