@@ -27,14 +27,18 @@ describe.only('Customer', function() {
   it('should be able to find associated bookings', function() {
     const a = [fakeBookings[1], fakeBookings[4], fakeBookings[7]]
     expect(customer2.findCustomerBookings(fakeBookings)).to.deep.equal(a)
-    console.log(customer2.bookings);
   });
 
   it('should be able to find room information for bookings', function() {
     const b = [fakeRooms[0], fakeRooms[3], fakeRooms[0]]
     customer1.findCustomerBookings(fakeBookings);
     expect(customer1.getRoomInfo(fakeRooms)).to.deep.equal(b)
-    console.log('rooms', customer1.rooms)
+  });
+
+  it('should be able to find total amount spent', function() {
+    customer1.findCustomerBookings(fakeBookings);
+    customer1.getRoomInfo(fakeRooms);
+    expect(customer1.findTotalSpent().toFixed(2)).to.equal('1185.88')
   });
 
 });

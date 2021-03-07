@@ -4,6 +4,7 @@ export class Customer {
     this.name = customer.name;
     this.bookings = [];
     this.rooms = [];
+    this.totalSpent = 0;
   }
 
   findCustomerBookings(bookings) {
@@ -16,5 +17,10 @@ export class Customer {
     })
   }
 
-
+  findTotalSpent() {
+    return this.totalSpent = this.rooms.reduce((totalCost, room) => {
+      totalCost += room.costPerNight
+      return totalCost
+    }, 0)
+  }
 }
