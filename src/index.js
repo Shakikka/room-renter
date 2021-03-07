@@ -1,10 +1,49 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
+import './images/noun_room_2072713.svg'
+import {
+  allCustomers,
+  singleCustomer,
+  allRooms,
+  allBookings,
+  addNewBooking
+} from './api'
+import {Customer} from './Customer';
+import {CustomerRepo} from './CustomerRepo';
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+const customerGreeting = document.querySelector('#customerGreeting');
+const customerBookings = document.querySelector('#customerBookings');
+const totalSpent = document.querySelector('#totalSpent');
 
-console.log('This is the JavaScript entry file - your code begins here.');
+const randomUser= (array) => Math.floor(Math.random() * array.length)
+const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
+
+
+Promise.all([allCustomers, allRooms, allBookings])
+  .then((values) => {
+    showMe(values[0].customers, values[1].rooms, values[2].bookings)
+  })
+
+  const showMe = (customers, rooms, bookings) => {
+    const customerRepo = new CustomerRepo(customers);
+    const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
+    addGreeting(currentUser);
+    displayBookings(currentUser, bookings);
+    allTimeCost(currentUser, rooms);
+  }
+
+const displayBookings = (customer, bookings) => {
+  customer.findCustomerBookings(bookings);
+  console.log('bookings', customer.bookings);
+  customerBookings.innerHTML = '';
+  customer.bookings.forEach(booking => {
+    customerBookings.innerHTML += `
+      <li>Date: ${booking.date}, Room: ${booking.roomNumber}</li>
+    `
+  })
+}
+
+const allTimeCost = (customer, rooms) => {
+  customer.getRoomInfo(rooms)
+  customer.findTotalSpent()
+  totalSpent.innerText = `Total Spent: $${customer.totalSpent.toFixed(2)}`
+}

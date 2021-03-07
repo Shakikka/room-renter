@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
+    <title>RoomRenter</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <header>
+      <img class="logo" src="./images/noun_room_2072713.svg" alt="Room Renter Logo" height="75px" width="75px">
+      <h1 class="site-name">RoomRenter</h1>
+      <h1 id="customerGreeting" class="customer-greeting"></h1>
+    </header>
+    <main class="customer-dash">
+      <article>
+        <p>All Bookings</p>
+        <ul id="customerBookings" class="customer-bookings">Bookings
+        </ul>
+        <p id="totalSpent" class="total-spent">Total Spent: $0</p>
+      </article>
+    </main>
   </body>
 </html>
