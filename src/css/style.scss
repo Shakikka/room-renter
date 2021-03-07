@@ -1,0 +1,33 @@
+body {
+  background: $darkpurple;
+  height: 100vh;
+  font-family: 'Akaya Telivigala';
+  display: grid;
+  grid-template: .2fr 1fr 1fr / repeat(5, 20%);
+}
+
+header {
+  grid-column: 1 / 6;
+  background: $purple;
+  border-radius: 5px;
+  display: grid;
+  grid-template: repeat(3, .5fr) / repeat(5, 20%)
+}
+
+.logo {
+  display: grid;
+  grid-column: 1/1;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.site-name {
+  text-align: right;
+  grid-column: 5/6;
+  padding-right: 10px;
+}
+
+.customer-greeting {
+  grid-area: 2/3/2/4;
+  text-align: center;
+}

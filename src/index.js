@@ -1,14 +1,5 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-console.log('This is the JavaScript entry file - your code begins here.');
-
-import './index.js'
+import './images/noun_room_2072713.svg'
 import {
   allCustomers,
   singleCustomer,
@@ -16,15 +7,11 @@ import {
   allBookings,
   addNewBooking
 } from './api'
-
+import {Customer} from './Customer';
+import {CustomerRepo} from './CustomerRepo';
 console.log('allCustomers', allCustomers)
-const randomUser= (array) => Math.floor(Math.random() * array.length)
 
-allCustomers
-.then(customer => {
-  console.log(customer)
-  console.log(customer.customers[randomUser(customer.customers)])
-})
+const randomUser= (array) => Math.floor(Math.random() * array.length)
 
 Promise.all([allCustomers, allRooms, allBookings])
   .then((values) => {
@@ -32,7 +19,10 @@ Promise.all([allCustomers, allRooms, allBookings])
   })
 
   const showMe = (customers, rooms, bookings) => {
-    console.log('customers', customers)
-    console.log('rooms', rooms)
-    console.log('bookings', bookings)
+    console.log('allBookings', bookings);
+  const currentUser = customers[randomUser(customers)];
+  console.log('currentUser', currentUser)
+  const userBookings = bookings.filter(room => room.userID === currentUser.id)
+  console.log('bookings', userBookings);
+  //search through rooms to find total price probably with reduce
   }

@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Customer} from '../src/Customer';
-import {CustomerRepo} from '../src/customerRepo';
+import {CustomerRepo} from '../src/CustomerRepo';
 
 describe('Customer', function() {
   let users, customerRepo
