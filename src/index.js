@@ -14,7 +14,7 @@ console.log('allCustomers', allCustomers)
 const customerGreeting = document.querySelector('.customer-greeting');
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
-const addGreeting = (user) => customerGreeting.innerText = `Welcome Back ${user.name}!`
+const addGreeting = (user) => customerGreeting.innerText = `Come Hither ${user.name}!`
 
 Promise.all([allCustomers, allRooms, allBookings])
   .then((values) => {

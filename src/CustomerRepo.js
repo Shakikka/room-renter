@@ -9,4 +9,6 @@ export class CustomerRepo {
   createCustomers(customersData) {
     this.customers = customersData.map(customer => new Customer(customer))
   }
+
+  
 }
