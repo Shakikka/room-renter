@@ -11,7 +11,10 @@ import {Customer} from './Customer';
 import {CustomerRepo} from './CustomerRepo';
 console.log('allCustomers', allCustomers)
 
+const customerGreeting = document.querySelector('.customer-greeting');
+
 const randomUser= (array) => Math.floor(Math.random() * array.length)
+const addGreeting = (user) => customerGreeting.innerText = `Welcome Back ${user.name}!`
 
 Promise.all([allCustomers, allRooms, allBookings])
   .then((values) => {
@@ -21,6 +24,7 @@ Promise.all([allCustomers, allRooms, allBookings])
   const showMe = (customers, rooms, bookings) => {
     console.log('allBookings', bookings);
   const currentUser = customers[randomUser(customers)];
+  addGreeting(currentUser);
   console.log('currentUser', currentUser)
   const userBookings = bookings.filter(room => room.userID === currentUser.id)
   console.log('bookings', userBookings);

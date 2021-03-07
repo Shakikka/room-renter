@@ -1,0 +1,17 @@
+.logo {
+  display: grid;
+  grid-column: 1/1;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.site-name {
+  text-align: right;
+  grid-column: 5/6;
+  padding-right: 10px;
+}
+
+.customer-greeting {
+  grid-area: 2/3/2/4;
+  text-align: center;
+}
