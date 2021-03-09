@@ -5,7 +5,8 @@ import {
   singleCustomer,
   allRooms,
   allBookings,
-  addNewBooking
+  addNewBooking,
+  checkForError
 } from './api'
 import {Customer} from './Customer';
 import {CustomerRepo} from './CustomerRepo';
@@ -44,7 +45,7 @@ Promise.all([allCustomers, allRooms, allBookings])
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
     })
     bookItButton.addEventListener('click', function() {
-      bookRoom(currentUser.id)
+      bookRoom(currentUser.id, rooms)
     })
   }
 
@@ -96,7 +97,7 @@ const setTodaysDate = () => {
   calendarStart.setAttribute('value', date);
 }
 
-const bookRoom = (userID) => {
+const bookRoom = (userID, rooms) => {
   const date = calendarStart.value.replace(/-/g, '/')
   const radioButtons = document.getElementsByName('roomType');
   let roomValue = 0
@@ -105,8 +106,17 @@ const bookRoom = (userID) => {
       roomValue = button.value
     }
   })
-  const bookingInformation = `{'userID': ${userID}, 'date': ${date}, 'roomNumber': ${roomValue}}`
+  const bookingInformation = {"userID": userID, "date": date, "roomNumber": parseInt(roomValue) }
   console.log('booking', bookingInformation)
+  addNewBooking(bookingInformation)
+  .then(checkForError)
+  .then(data => {
+    bookingRepo.bookingInfo.push(data);
+    todaysAvailableRooms.innerHTML = ''
+    findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
+  })
+  .catch(err => alert(err))
+  // findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
 }
 
 // addNewBooking({ "userID": 48, "date": "2021/09/23", "roomNumber": 4 })
