@@ -32,6 +32,4 @@ export const allBookings = fetch('http://localhost:3001/api/v1/bookings')
       },
       body: JSON.stringify(bookingInfo)
     })
-      // .then(checkForError)
-      // .catch(err => alert(err))
   }

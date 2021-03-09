@@ -12,7 +12,11 @@ export class BookingRepo {
   }
 
   findByType(roomType, availableRooms) {
-    return availableRooms.filter(room => room.roomType === roomType)
+    if (!roomType) {
+      return availableRooms
+    } else {
+      return availableRooms.filter(room => room.roomType === roomType)
+    }
   }
 
 

@@ -65,18 +65,21 @@ Promise.all([allCustomers, allRooms, allBookings])
 
 const displayRooms = (rooms) => {
   todaysAvailableRooms.innerHTML = ''
-  console.log('meaow', rooms)
-  rooms.forEach(room => {
-    todaysAvailableRooms.innerHTML += `
-    <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
-    Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
-    `
-  })
+  console.log(rooms)
+  if (!rooms.length) {
+    alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
+  } else {
+    rooms.forEach(room => {
+      todaysAvailableRooms.innerHTML += `
+      <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
+      Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
+      `
+    })
+  }
 }
 
 const displayBookings = (customer, bookings) => {
   customer.findCustomerBookings(bookings);
-  console.log('bookings', customer.bookings);
   customerBookings.innerHTML = '';
   customer.bookings.forEach(booking => {
     customerBookings.innerHTML += `
@@ -97,6 +100,13 @@ const setTodaysDate = () => {
   calendarStart.setAttribute('value', date);
 }
 
+const updateBookingInfo = (user, rooms, data) => {
+  bookingRepo.bookingInfo.push(data.newBooking);
+  findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
+  displayBookings(user, bookingRepo.bookingInfo)
+  allTimeCost(user, rooms)
+}
+
 const bookRoom = (user, rooms) => {
   const date = calendarStart.value.replace(/-/g, '/')
   const radioButtons = document.getElementsByName('roomType');
@@ -106,18 +116,15 @@ const bookRoom = (user, rooms) => {
       roomValue = button.value
     }
   })
-  const bookingInformation = {"userID": user.id, "date": date, "roomNumber": parseInt(roomValue) }
-  console.log('booking', bookingInformation)
-  addNewBooking(bookingInformation)
-  .then(checkForError)
-  .then(data => {
-    bookingRepo.bookingInfo.push(data.newBooking);
-    findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
-    displayBookings(user, bookingRepo.bookingInfo)
-    allTimeCost(user, rooms)
-  })
-  .catch(err => alert(err))
-  // findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
+  if (roomValue !== 0) {
+    const bookingInformation = {"userID": user.id, "date": date, "roomNumber": parseInt(roomValue) }
+    addNewBooking(bookingInformation)
+    .then(checkForError)
+    .then(data => {
+      updateBookingInfo(user, rooms, data);
+    })
+    .catch(err => alert(err))
+  } else {
+    alert('Please pick a room')
+  }
 }
-
-// addNewBooking({ "userID": 48, "date": "2021/09/23", "roomNumber": 4 })
