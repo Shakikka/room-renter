@@ -13,6 +13,7 @@ import {CustomerRepo} from './CustomerRepo';
 const customerGreeting = document.querySelector('#customerGreeting');
 const customerBookings = document.querySelector('#customerBookings');
 const totalSpent = document.querySelector('#totalSpent');
+const calendarStart = document.querySelector('#start');
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
@@ -29,6 +30,8 @@ Promise.all([allCustomers, allRooms, allBookings])
     addGreeting(currentUser);
     displayBookings(currentUser, bookings);
     allTimeCost(currentUser, rooms);
+    setTodaysDate();
+
   }
 
 const displayBookings = (customer, bookings) => {
@@ -46,4 +49,11 @@ const allTimeCost = (customer, rooms) => {
   customer.getRoomInfo(rooms)
   customer.findTotalSpent()
   totalSpent.innerText = `Total Spent: $${customer.totalSpent.toFixed(2)}`
+}
+
+const setTodaysDate = () => {
+  const date = new Date().toISOString().split("T")[0];
+  calendarStart.setAttribute('min', date);
+  calendarStart.value = date
+  console.log(date)
 }
