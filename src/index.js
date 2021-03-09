@@ -63,19 +63,18 @@ Promise.all([allCustomers, allRooms, allBookings])
     displayRooms(availableRooms);
   }
 
-const displayRooms = (rooms) => {
-  todaysAvailableRooms.innerHTML = ''
-  if (!rooms.length) {
-    alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
-  } else {
+  const displayRooms = (rooms) => {
+    todaysAvailableRooms.innerHTML = ''
     rooms.forEach(room => {
       todaysAvailableRooms.innerHTML += `
       <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
       Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
       `
     })
+    if (!rooms.length) {
+      alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
+    }
   }
-}
 
 const displayBookings = (customer, bookings) => {
   customer.findCustomerBookings(bookings);
