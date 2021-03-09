@@ -16,6 +16,7 @@ const customerBookings = document.querySelector('#customerBookings');
 const totalSpent = document.querySelector('#totalSpent');
 const calendarStart = document.querySelector('#start');
 const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
+const selectRoomStyle = document.querySelector('#selectRoomStyle');
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
@@ -37,7 +38,18 @@ Promise.all([allCustomers, allRooms, allBookings])
     calendarStart.addEventListener('change', function() {
       showAvailableRooms(bookingRepo, rooms)
     })
+    selectRoomStyle.addEventListener('change', function() {
+      findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
+    })
   }
+
+  const findRoomsOfType = (roomType, rooms, bookings) => {
+    const date = calendarStart.value.replace(/-/g, '/')
+    const availableRooms = bookings.findAvailableRooms(date, rooms)
+    const roomsOfType = bookings.findByType(roomType, availableRooms)
+    displayRooms(roomsOfType);
+  }
+
 
   const showAvailableRooms = (bookings, rooms) => {
     const date = calendarStart.value.replace(/-/g, '/')
