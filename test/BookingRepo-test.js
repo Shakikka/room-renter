@@ -5,7 +5,7 @@ import {
   fakeRooms
 } from '../data/fakeData'
 
-describe.only('BookingRepo', function() {
+describe('BookingRepo', function() {
   let bookingRepo
 
   beforeEach(function() {

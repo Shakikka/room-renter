@@ -3,11 +3,11 @@ body {
   height: 100vh;
   font-family: 'Akaya Telivigala';
   display: grid;
-  grid-template: .2fr .1fr 1fr 1fr .1fr / 1fr .1fr 1fr 1fr .1fr 1fr;
+  grid-template: .2fr .1fr 1fr 1fr .1fr / 1fr .1fr 1fr 1fr .1fr 1fr .1fr;
 }
 
 header {
-  grid-column: 1 / 7;
+  grid-column: 1 / 8;
   background: $blue;
   border-radius: 5px;
   display: grid;

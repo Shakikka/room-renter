@@ -5,7 +5,8 @@ import {
   singleCustomer,
   allRooms,
   allBookings,
-  addNewBooking
+  addNewBooking,
+  checkForError
 } from './api'
 import {Customer} from './Customer';
 import {CustomerRepo} from './CustomerRepo';
@@ -17,6 +18,8 @@ const totalSpent = document.querySelector('#totalSpent');
 const calendarStart = document.querySelector('#start');
 const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
 const selectRoomStyle = document.querySelector('#selectRoomStyle');
+const bookItButton = document.querySelector('#submitForm');
+
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
@@ -32,7 +35,7 @@ Promise.all([allCustomers, allRooms, allBookings])
     bookingRepo = new BookingRepo(bookings);
     const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
     addGreeting(currentUser);
-    displayBookings(currentUser, bookings);
+    displayBookings(currentUser, bookingRepo.bookingInfo);
     allTimeCost(currentUser, rooms);
     setTodaysDate();
     calendarStart.addEventListener('change', function() {
@@ -40,6 +43,9 @@ Promise.all([allCustomers, allRooms, allBookings])
     })
     selectRoomStyle.addEventListener('change', function() {
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
+    })
+    bookItButton.addEventListener('click', function() {
+      bookRoom(currentUser, rooms)
     })
   }
 
@@ -59,18 +65,20 @@ Promise.all([allCustomers, allRooms, allBookings])
 
 const displayRooms = (rooms) => {
   todaysAvailableRooms.innerHTML = ''
-  console.log('meaow', rooms)
-  rooms.forEach(room => {
-    todaysAvailableRooms.innerHTML += `
-    <li>Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
-    Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}</li>
-    `
-  })
+  if (!rooms.length) {
+    alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
+  } else {
+    rooms.forEach(room => {
+      todaysAvailableRooms.innerHTML += `
+      <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
+      Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
+      `
+    })
+  }
 }
 
 const displayBookings = (customer, bookings) => {
   customer.findCustomerBookings(bookings);
-  console.log('bookings', customer.bookings);
   customerBookings.innerHTML = '';
   customer.bookings.forEach(booking => {
     customerBookings.innerHTML += `
@@ -89,4 +97,33 @@ const setTodaysDate = () => {
   const date = new Date().toISOString().split("T")[0];
   calendarStart.setAttribute('min', date);
   calendarStart.setAttribute('value', date);
+}
+
+const updateBookingInfo = (user, rooms, data) => {
+  bookingRepo.bookingInfo.push(data.newBooking);
+  findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
+  displayBookings(user, bookingRepo.bookingInfo)
+  allTimeCost(user, rooms)
+}
+
+const bookRoom = (user, rooms) => {
+  const date = calendarStart.value.replace(/-/g, '/')
+  const radioButtons = document.getElementsByName('roomType');
+  let roomValue = 0
+  radioButtons.forEach(button => {
+    if (button.checked) {
+      roomValue = button.value
+    }
+  })
+  if (roomValue !== 0) {
+    const bookingInformation = {"userID": user.id, "date": date, "roomNumber": parseInt(roomValue) }
+    addNewBooking(bookingInformation)
+    .then(checkForError)
+    .then(data => {
+      updateBookingInfo(user, rooms, data);
+    })
+    .catch(err => alert(err))
+  } else {
+    alert('Please pick a room')
+  }
 }

@@ -27,18 +27,19 @@
           value="2020-02-06"
           min="2020-02-06">
           <div>
-              <label for="selectRoomStyle">Select Room Type</label>
-              <select name="room-style" class="room-style" id="selectRoomStyle" aria-label="select-room-style">
-                <option value="" selected></option>
-                <option value="single room">Single Room</option>
-                <option value="junior suite">Junior Suite</option>
-                <option value="suite">Suite</option>
-                <option value="residential suite">Residential Suite</option>
-              </select>
-            </div>
+            <label for="selectRoomStyle">Select Room Type</label>
+            <select name="room-style" class="room-style" id="selectRoomStyle" aria-label="select-room-style">
+              <option value="" selected></option>
+              <option value="single room">Single Room</option>
+              <option value="junior suite">Junior Suite</option>
+              <option value="suite">Suite</option>
+              <option value="residential suite">Residential Suite</option>
+            </select>
+          </div>
           <p>Available Rooms</p>
-        <ul id="todaysAvailableRooms" class="available-rooms">
-        </ul>
+        <form id="todaysAvailableRooms" class="available-rooms">
+        </form>
+        <button id="submitForm">Book It!</button>
       </article>
     </main>
   </body>
