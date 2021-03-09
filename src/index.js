@@ -41,11 +41,8 @@ Promise.all([allCustomers, allRooms, allBookings])
 
   const showAvailableRooms = (bookings, rooms) => {
     const date = calendarStart.value.replace(/-/g, '/')
-    console.log('vroom', rooms)
     const availableRooms = bookings.findAvailableRooms(date, rooms)
-    console.log('woorf', availableRooms)
     displayRooms(availableRooms);
-    console.log(date)
   }
 
 const displayRooms = (rooms) => {
@@ -80,5 +77,4 @@ const setTodaysDate = () => {
   const date = new Date().toISOString().split("T")[0];
   calendarStart.setAttribute('min', date);
   calendarStart.setAttribute('value', date);
-  console.log(date)
 }
