@@ -65,7 +65,6 @@ Promise.all([allCustomers, allRooms, allBookings])
 
 const displayRooms = (rooms) => {
   todaysAvailableRooms.innerHTML = ''
-  console.log(rooms)
   if (!rooms.length) {
     alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
   } else {
