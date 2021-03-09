@@ -11,4 +11,9 @@ export class BookingRepo {
     return availableRooms
   }
 
+  findByType(roomType, availableRooms) {
+    return availableRooms.filter(room => room.roomType === roomType)
+  }
+
+
 }

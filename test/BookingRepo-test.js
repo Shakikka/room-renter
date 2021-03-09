@@ -17,7 +17,11 @@ describe.only('BookingRepo', function() {
     expect(bookingRepo.findAvailableRooms('2020/01/24', fakeRooms)).to.deep.equal(result);
   });
 
-
+  it('should be able to find rooms of specific types', function() {
+    const availableRooms = bookingRepo.findAvailableRooms('2020/02/02', fakeRooms)
+    const result = [fakeRooms[0], fakeRooms[1], fakeRooms[4]]
+    expect(bookingRepo.findByType('single room', availableRooms)).to.deep.equal(result)
+  });
 
 
 });
