@@ -7,7 +7,7 @@ fakeBookings,
 fakeRooms
 } from '../data/fakeData'
 
-describe.only('Customer', function() {
+describe('Customer', function() {
   let customerRepo, customer1, customer2
 
   beforeEach(function() {

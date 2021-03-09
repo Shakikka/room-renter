@@ -31,6 +31,7 @@ Promise.all([allCustomers, allRooms, allBookings])
     displayBookings(currentUser, bookings);
     allTimeCost(currentUser, rooms);
     setTodaysDate();
+    console.log('rooms', rooms);
 
   }
 

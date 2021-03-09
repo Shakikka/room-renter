@@ -11,7 +11,7 @@ header {
   background: $blue;
   border-radius: 5px;
   display: grid;
-  grid-template: repeat(3, .5fr) / repeat(5, 20%)
+  grid-template: repeat(3, .5fr) / 1fr .5fr 3fr .5fr 1fr
 }
 
 main {
