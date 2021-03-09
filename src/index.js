@@ -17,6 +17,8 @@ const totalSpent = document.querySelector('#totalSpent');
 const calendarStart = document.querySelector('#start');
 const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
 const selectRoomStyle = document.querySelector('#selectRoomStyle');
+const bookItButton = document.querySelector('#submitForm');
+
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
@@ -41,6 +43,9 @@ Promise.all([allCustomers, allRooms, allBookings])
     selectRoomStyle.addEventListener('change', function() {
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
     })
+    bookItButton.addEventListener('click', function() {
+      bookRoom(currentUser.id)
+    })
   }
 
   const findRoomsOfType = (roomType, rooms, bookings) => {
@@ -62,7 +67,7 @@ const displayRooms = (rooms) => {
   console.log('meaow', rooms)
   rooms.forEach(room => {
     todaysAvailableRooms.innerHTML += `
-    <label><input type="radio" id=${room.number} name="roomType">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
+    <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
     Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
     `
   })
@@ -90,3 +95,18 @@ const setTodaysDate = () => {
   calendarStart.setAttribute('min', date);
   calendarStart.setAttribute('value', date);
 }
+
+const bookRoom = (userID) => {
+  const date = calendarStart.value.replace(/-/g, '/')
+  const radioButtons = document.getElementsByName('roomType');
+  let roomValue = 0
+  radioButtons.forEach(button => {
+    if (button.checked) {
+      roomValue = button.value
+    }
+  })
+  const bookingInformation = `{'userID': ${userID}, 'date': ${date}, 'roomNumber': ${roomValue}}`
+  console.log('booking', bookingInformation)
+}
+
+// addNewBooking({ "userID": 48, "date": "2021/09/23", "roomNumber": 4 })
