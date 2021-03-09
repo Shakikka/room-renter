@@ -62,8 +62,8 @@ const displayRooms = (rooms) => {
   console.log('meaow', rooms)
   rooms.forEach(room => {
     todaysAvailableRooms.innerHTML += `
-    <li>Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
-    Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}</li>
+    <label><input type="radio" id=${room.number} name="roomType">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
+    Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
     `
   })
 }
