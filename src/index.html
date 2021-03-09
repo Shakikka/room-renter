@@ -13,12 +13,22 @@
       <h1 class="site-name">RoomRenter</h1>
       <h1 id="customerGreeting" class="customer-greeting"></h1>
     </header>
-    <main class="customer-dash">
-      <article>
-        <p>All Bookings</p>
+    <main>
+      <article class="customer-dash">
+        <p>Customer Bookings</p>
         <ul id="customerBookings" class="customer-bookings">Bookings
         </ul>
         <p id="totalSpent" class="total-spent">Total Spent: $0</p>
+      </article>
+      <article class="book-room-page">
+        <p>BOOK ME</p>
+        <label for="start">Pick a Date</label>
+        <input type="date" id="start" name="trip-start"
+          value="2020-02-06"
+          min="2020-02-06">
+          <p>Available Rooms</p>
+        <ul id="todaysAvailableRooms" class="available-rooms">
+        </ul>
       </article>
     </main>
   </body>

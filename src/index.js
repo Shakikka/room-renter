@@ -9,14 +9,17 @@ import {
 } from './api'
 import {Customer} from './Customer';
 import {CustomerRepo} from './CustomerRepo';
+import {BookingRepo} from './BookingRepo';
 
 const customerGreeting = document.querySelector('#customerGreeting');
 const customerBookings = document.querySelector('#customerBookings');
 const totalSpent = document.querySelector('#totalSpent');
+const calendarStart = document.querySelector('#start');
+const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
-
+let customerRepo, bookingRepo
 
 Promise.all([allCustomers, allRooms, allBookings])
   .then((values) => {
@@ -24,12 +27,34 @@ Promise.all([allCustomers, allRooms, allBookings])
   })
 
   const showMe = (customers, rooms, bookings) => {
-    const customerRepo = new CustomerRepo(customers);
+    customerRepo = new CustomerRepo(customers);
+    bookingRepo = new BookingRepo(bookings);
     const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
     addGreeting(currentUser);
     displayBookings(currentUser, bookings);
     allTimeCost(currentUser, rooms);
+    setTodaysDate();
+    calendarStart.addEventListener('change', function() {
+      showAvailableRooms(bookingRepo, rooms)
+    })
   }
+
+  const showAvailableRooms = (bookings, rooms) => {
+    const date = calendarStart.value.replace(/-/g, '/')
+    const availableRooms = bookings.findAvailableRooms(date, rooms)
+    displayRooms(availableRooms);
+  }
+
+const displayRooms = (rooms) => {
+  todaysAvailableRooms.innerHTML = ''
+  console.log('meaow', rooms)
+  rooms.forEach(room => {
+    todaysAvailableRooms.innerHTML += `
+    <li>Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
+    Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}</li>
+    `
+  })
+}
 
 const displayBookings = (customer, bookings) => {
   customer.findCustomerBookings(bookings);
@@ -46,4 +71,10 @@ const allTimeCost = (customer, rooms) => {
   customer.getRoomInfo(rooms)
   customer.findTotalSpent()
   totalSpent.innerText = `Total Spent: $${customer.totalSpent.toFixed(2)}`
+}
+
+const setTodaysDate = () => {
+  const date = new Date().toISOString().split("T")[0];
+  calendarStart.setAttribute('min', date);
+  calendarStart.setAttribute('value', date);
 }
