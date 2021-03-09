@@ -35,7 +35,7 @@ Promise.all([allCustomers, allRooms, allBookings])
     bookingRepo = new BookingRepo(bookings);
     const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
     addGreeting(currentUser);
-    displayBookings(currentUser, bookings);
+    displayBookings(currentUser, bookingRepo.bookingInfo);
     allTimeCost(currentUser, rooms);
     setTodaysDate();
     calendarStart.addEventListener('change', function() {
@@ -45,7 +45,7 @@ Promise.all([allCustomers, allRooms, allBookings])
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
     })
     bookItButton.addEventListener('click', function() {
-      bookRoom(currentUser.id, rooms)
+      bookRoom(currentUser, rooms)
     })
   }
 
@@ -97,7 +97,7 @@ const setTodaysDate = () => {
   calendarStart.setAttribute('value', date);
 }
 
-const bookRoom = (userID, rooms) => {
+const bookRoom = (user, rooms) => {
   const date = calendarStart.value.replace(/-/g, '/')
   const radioButtons = document.getElementsByName('roomType');
   let roomValue = 0
@@ -106,14 +106,15 @@ const bookRoom = (userID, rooms) => {
       roomValue = button.value
     }
   })
-  const bookingInformation = {"userID": userID, "date": date, "roomNumber": parseInt(roomValue) }
+  const bookingInformation = {"userID": user.id, "date": date, "roomNumber": parseInt(roomValue) }
   console.log('booking', bookingInformation)
   addNewBooking(bookingInformation)
   .then(checkForError)
   .then(data => {
-    bookingRepo.bookingInfo.push(data);
-    todaysAvailableRooms.innerHTML = ''
+    bookingRepo.bookingInfo.push(data.newBooking);
     findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
+    displayBookings(user, bookingRepo.bookingInfo)
+    allTimeCost(user, rooms)
   })
   .catch(err => alert(err))
   // findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo)
