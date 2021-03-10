@@ -9,35 +9,44 @@ import {
   checkForError
 } from './api'
 import {Customer} from './Customer';
-import {CustomerRepo} from './CustomerRepo';
 import {BookingRepo} from './BookingRepo';
 
 const customerGreeting = document.querySelector('#customerGreeting');
 const customerBookings = document.querySelector('#customerBookings');
+const customerDash = document.querySelector('#customerDash');
+const bookRoomPage = document.querySelector('#bookRoomPage');
+const loginBox = document.querySelector('#loginBox');
 const totalSpent = document.querySelector('#totalSpent');
 const calendarStart = document.querySelector('#start');
 const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
 const selectRoomStyle = document.querySelector('#selectRoomStyle');
 const bookItButton = document.querySelector('#submitForm');
+const loginButton = document.querySelector('#loginButton');
+const userName = document.querySelector('#userName');
+const password = document.querySelector('#password');
 
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
-let customerRepo, bookingRepo
-
-Promise.all([allCustomers, allRooms, allBookings])
-  .then((values) => {
-    showMe(values[0].customers, values[1].rooms, values[2].bookings)
-  })
+let bookingRepo
+  Promise.all([allCustomers, allRooms, allBookings])
+    .then((values) => {
+      showMe(values[0].customers, values[1].rooms, values[2].bookings)
+    })
 
   const showMe = (customers, rooms, bookings) => {
-    customerRepo = new CustomerRepo(customers);
     bookingRepo = new BookingRepo(bookings);
-    const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
-    addGreeting(currentUser);
-    displayBookings(currentUser, bookingRepo.bookingInfo);
-    allTimeCost(currentUser, rooms);
     setTodaysDate();
+    loginButton.addEventListener('click', function() {
+      loginUser(bookingRepo, rooms)
+    })
+  }
+
+  const displayAll = (user, rooms) => {
+    const customer = new Customer(user);
+    addGreeting(customer);
+    displayBookings(customer, bookingRepo.bookingInfo);
+    allTimeCost(customer, rooms)
     calendarStart.addEventListener('change', function() {
       showAvailableRooms(bookingRepo, rooms)
     })
@@ -45,8 +54,31 @@ Promise.all([allCustomers, allRooms, allBookings])
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
     })
     bookItButton.addEventListener('click', function() {
-      bookRoom(currentUser, rooms)
+      bookRoom(customer, rooms)
     })
+
+  }
+
+  const show = (elements) => {
+    elements.forEach(element => element.classList.remove('hidden'))
+  }
+
+  const loginUser = (bookings, rooms) => {
+    const deconstructCustomer = userName.value.split('r')
+    if (!userName.value || !password.value) {
+      alert('Please provide us with your information')
+    } else if (password.value === 'overlook2021' && deconstructCustomer[0] === 'custome'
+     && parseInt(deconstructCustomer[1]) > 0 && parseInt(deconstructCustomer[1]) < 51) {
+       show([customerGreeting, customerDash, bookRoomPage]);
+       loginBox.classList.add('hidden')
+       const customerID = parseInt(deconstructCustomer[1])
+       singleCustomer(customerID)
+       .then(userData => {
+         displayAll(userData, rooms);
+       })
+     } else {
+       alert('Please Try Again')
+     }
   }
 
   const findRoomsOfType = (roomType, rooms, bookings) => {
@@ -63,19 +95,18 @@ Promise.all([allCustomers, allRooms, allBookings])
     displayRooms(availableRooms);
   }
 
-const displayRooms = (rooms) => {
-  todaysAvailableRooms.innerHTML = ''
-  if (!rooms.length) {
-    alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
-  } else {
+  const displayRooms = (rooms) => {
+    todaysAvailableRooms.innerHTML = ''
     rooms.forEach(room => {
       todaysAvailableRooms.innerHTML += `
       <label><input type="radio" id=${room.number} name="roomType" class="room-type" value="${room.number}">Room Type: ${room.roomType}, Number of Beds: ${room.numBeds},
       Bed Size:${room.bedSize}, Bidet: ${room.bidet}, Room Number: ${room.number}, Cost: ${room.costPerNight}></label>
       `
     })
+    if (!rooms.length) {
+      alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
+    }
   }
-}
 
 const displayBookings = (customer, bookings) => {
   customer.findCustomerBookings(bookings);

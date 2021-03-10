@@ -1,0 +1,15 @@
+.login-box {
+  grid-area: 1/3/2/5;
+  background: $pink;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.login-box > form {
+  display: flex;
+  flex-direction: column;
+
+}

@@ -11,16 +11,25 @@
     <header>
       <img class="logo" src="./images/noun_room_2072713.svg" alt="Room Renter Logo" height="75px" width="75px">
       <h1 class="site-name">RoomRenter</h1>
-      <h1 id="customerGreeting" class="customer-greeting"></h1>
+      <h1 id="customerGreeting" class="customer-greeting hidden"></h1>
     </header>
     <main>
-      <article class="customer-dash">
+      <section id="loginBox" class="login-box">
+        <form>
+          <label for="userName">Username</label>
+          <input id="userName" type="text">
+          <label for="password">Password</label>
+          <input id="password" type="text">
+        </form>
+        <button id="loginButton">Submit</button>
+      </section>
+      <article id="customerDash" class="customer-dash hidden">
         <p>Customer Bookings</p>
         <ul id="customerBookings" class="customer-bookings">Bookings
         </ul>
         <p id="totalSpent" class="total-spent">Total Spent: $0</p>
       </article>
-      <article class="book-room-page">
+      <article id="bookRoomPage" class="book-room-page hidden">
         <p>BOOK ME</p>
         <label for="start">Pick a Date</label>
         <input type="date" id="start" name="trip-start"
