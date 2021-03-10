@@ -25,10 +25,8 @@ const loginButton = document.querySelector('#loginButton');
 const userName = document.querySelector('#userName');
 const password = document.querySelector('#password');
 
-
-const randomUser= (array) => Math.floor(Math.random() * array.length)
-const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
 let bookingRepo
+
   Promise.all([allCustomers, allRooms, allBookings])
     .then((values) => {
       showMe(values[0].customers, values[1].rooms, values[2].bookings)
@@ -62,6 +60,8 @@ let bookingRepo
   const show = (elements) => {
     elements.forEach(element => element.classList.remove('hidden'))
   }
+
+  const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
 
   const loginUser = (bookings, rooms) => {
     const deconstructCustomer = userName.value.split('r')
@@ -104,7 +104,7 @@ let bookingRepo
       `
     })
     if (!rooms.length) {
-      alert("We are incredibly sorry, but we are plum out of rooms. Please make a new selection.")
+      alert("We are incredibly sorry, but we are plum out of rooms for the current selection. Please make a new selection.")
     }
   }
 
