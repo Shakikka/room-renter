@@ -14,7 +14,7 @@
       <h1 id="customerGreeting" class="customer-greeting hidden"></h1>
     </header>
     <main>
-      <section class="login-box">
+      <section id="loginBox" class="login-box">
         <form>
           <label for="userName">Username</label>
           <input id="userName" type="text">
@@ -23,13 +23,13 @@
         </form>
         <button id="loginButton">Submit</button>
       </section>
-      <article class="customer-dash hidden">
+      <article id="customerDash" class="customer-dash hidden">
         <p>Customer Bookings</p>
         <ul id="customerBookings" class="customer-bookings">Bookings
         </ul>
         <p id="totalSpent" class="total-spent">Total Spent: $0</p>
       </article>
-      <article class="book-room-page hidden">
+      <article id="bookRoomPage" class="book-room-page hidden">
         <p>BOOK ME</p>
         <label for="start">Pick a Date</label>
         <input type="date" id="start" name="trip-start"

@@ -14,11 +14,17 @@ import {BookingRepo} from './BookingRepo';
 
 const customerGreeting = document.querySelector('#customerGreeting');
 const customerBookings = document.querySelector('#customerBookings');
+const customerDash = document.querySelector('#customerDash');
+const bookRoomPage = document.querySelector('#bookRoomPage');
+const loginBox = document.querySelector('#loginBox');
 const totalSpent = document.querySelector('#totalSpent');
 const calendarStart = document.querySelector('#start');
 const todaysAvailableRooms = document.querySelector('#todaysAvailableRooms');
 const selectRoomStyle = document.querySelector('#selectRoomStyle');
 const bookItButton = document.querySelector('#submitForm');
+const loginButton = document.querySelector('#loginButton');
+const userName = document.querySelector('#userName');
+const password = document.querySelector('#password');
 
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
@@ -47,6 +53,26 @@ Promise.all([allCustomers, allRooms, allBookings])
     bookItButton.addEventListener('click', function() {
       bookRoom(currentUser, rooms)
     })
+  }
+
+  const show = (elements) => {
+    elements.forEach(element => element.classList.remove('hidden'))
+  }
+
+  const loginUser = () => {
+    const deconstructCustomer = userName.value.split('r')
+
+    if (!userName.value || !password.value) {
+      alert('Please provide us with your information')
+    }
+
+    if (password.value === 'overlook2021' && deconstructCustomer[0] === 'custome'
+     && parseInt(deconstructCustomer[1]) > 0 && parseInt(deconstructCustomer[1]) < 51) {
+       show([customerGreeting, customerDash, bookRoomPage]);
+       loginBox.classList.add('hidden')
+     } else {
+       alert('Please Try Again')
+     }
   }
 
   const findRoomsOfType = (roomType, rooms, bookings) => {
@@ -126,3 +152,5 @@ const bookRoom = (user, rooms) => {
     alert('Please pick a room')
   }
 }
+
+loginButton.addEventListener('click', loginUser)
