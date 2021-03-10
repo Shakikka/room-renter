@@ -29,21 +29,25 @@ const password = document.querySelector('#password');
 
 const randomUser= (array) => Math.floor(Math.random() * array.length)
 const addGreeting = (user) => customerGreeting.innerText = `Come Hither, ${user.name}!`
-let customerRepo, bookingRepo
-
-Promise.all([allCustomers, allRooms, allBookings])
-  .then((values) => {
-    showMe(values[0].customers, values[1].rooms, values[2].bookings)
-  })
+let bookingRepo
+  Promise.all([allCustomers, allRooms, allBookings])
+    .then((values) => {
+      showMe(values[0].customers, values[1].rooms, values[2].bookings)
+    })
 
   const showMe = (customers, rooms, bookings) => {
-    customerRepo = new CustomerRepo(customers);
     bookingRepo = new BookingRepo(bookings);
-    const currentUser = customerRepo.customers[randomUser(customerRepo.customers)];
-    addGreeting(currentUser);
-    displayBookings(currentUser, bookingRepo.bookingInfo);
-    allTimeCost(currentUser, rooms);
     setTodaysDate();
+    loginButton.addEventListener('click', function() {
+      loginUser(bookingRepo, rooms)
+    })
+  }
+
+  const displayAll = (user, rooms) => {
+    const customer = new Customer(user);
+    addGreeting(customer);
+    displayBookings(customer, bookingRepo.bookingInfo);
+    allTimeCost(customer, rooms)
     calendarStart.addEventListener('change', function() {
       showAvailableRooms(bookingRepo, rooms)
     })
@@ -51,25 +55,28 @@ Promise.all([allCustomers, allRooms, allBookings])
       findRoomsOfType(selectRoomStyle.value, rooms, bookingRepo);
     })
     bookItButton.addEventListener('click', function() {
-      bookRoom(currentUser, rooms)
+      bookRoom(customer, rooms)
     })
+
   }
 
   const show = (elements) => {
     elements.forEach(element => element.classList.remove('hidden'))
   }
 
-  const loginUser = () => {
+  const loginUser = (bookings, rooms) => {
     const deconstructCustomer = userName.value.split('r')
-
     if (!userName.value || !password.value) {
       alert('Please provide us with your information')
-    }
-
-    if (password.value === 'overlook2021' && deconstructCustomer[0] === 'custome'
+    } else if (password.value === 'overlook2021' && deconstructCustomer[0] === 'custome'
      && parseInt(deconstructCustomer[1]) > 0 && parseInt(deconstructCustomer[1]) < 51) {
        show([customerGreeting, customerDash, bookRoomPage]);
        loginBox.classList.add('hidden')
+       const customerID = parseInt(deconstructCustomer[1])
+       singleCustomer(customerID)
+       .then(userData => {
+         displayAll(userData, rooms);
+       })
      } else {
        alert('Please Try Again')
      }
@@ -152,5 +159,3 @@ const bookRoom = (user, rooms) => {
     alert('Please pick a room')
   }
 }
-
-loginButton.addEventListener('click', loginUser)

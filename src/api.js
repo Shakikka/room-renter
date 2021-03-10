@@ -11,7 +11,7 @@ export const allCustomers = fetch('http://localhost:3001/api/v1/customers')
   .catch(err => alert(err))
 
 export const singleCustomer = (customerID) => {
-  fetch(`http://localhost:3001/api/v1/customers/${customerID}`)
+  return fetch(`http://localhost:3001/api/v1/customers/${customerID}`)
   .then(checkForError)
   .catch(err => alert(err))
 }
