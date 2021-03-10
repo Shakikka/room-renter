@@ -9,7 +9,6 @@ import {
   checkForError
 } from './api'
 import {Customer} from './Customer';
-import {CustomerRepo} from './CustomerRepo';
 import {BookingRepo} from './BookingRepo';
 
 const customerGreeting = document.querySelector('#customerGreeting');
