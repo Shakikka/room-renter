@@ -33,7 +33,7 @@
 * First you will want to log in with any `username` from `customer1` to `customer50`.
 The `password` will always be `overlook2021`.
 
-<img src"src/images/2.png">
+<img src="src/images/2.png">
 
 * On the left you will see a list of bookings that your user already has. On the
  right side you will see a calendar. If you click on the icon, you will be prompted
@@ -44,7 +44,7 @@ may click the radio button of your choosing that is associated with a room that 
 would like to reserve, or you may filter the room list by the room type that you
 prefer.
 
-<img src"src/images/3.png">
+<img src="src/images/3.png">
 
 * After selecting a room, you can hit the `Book it!` button, and it will add it
 to your list of already existing room bookings! How exciting!
