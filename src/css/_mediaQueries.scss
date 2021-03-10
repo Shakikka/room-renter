@@ -1,0 +1,43 @@
+@media screen and (max-width: 750px) {
+
+  .customer-greeting {
+   font-size: 100%;
+ }
+
+ main {
+   grid-gap: 10px;
+ }
+
+ .customer-dash {
+   grid-area: 1/1/2/7;
+   background: $pink;
+ }
+
+ .book-room-page {
+   grid-area: 2/1/4/7;
+   background: $blue;
+ }
+
+ .login-box {
+   grid-area: 1/1/2/7;
+ }
+
+}
+
+@media screen and (max-width: 1024px) and (min-width: 750px) {
+  .customer-greeting {
+   font-size: 150%;
+ }
+
+ .customer-dash {
+   grid-area: 1/1/3/4;
+ }
+
+ .book-room-page {
+   grid-area: 1/4/3/7;
+ }
+
+ .login-box {
+   grid-area: 1/1/2/7;
+ }
+}
